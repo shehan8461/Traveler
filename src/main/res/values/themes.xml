@@ -6,4 +6,10 @@
     </style>
 
     <style name="Theme.Traveler" parent="Base.Theme.Traveler" />
+    
+    <style name="Theme.Traveler.NoActionBar" parent="Theme.Traveler">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">#3F51B5</item>
+    </style>
 </resources>
