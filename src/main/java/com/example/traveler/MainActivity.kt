@@ -3,8 +3,6 @@ package com.example.traveler
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -51,6 +49,10 @@ class MainActivity : AppCompatActivity() {
         binding.btnExplore.setOnClickListener {
             startActivity(Intent(this, BookingListActivity::class.java))
         }
+
+        binding.btnLogout.setOnClickListener {
+            showLogoutDialog()
+        }
     }
 
     private fun isUserLoggedIn(): Boolean {
@@ -60,21 +62,6 @@ class MainActivity : AppCompatActivity() {
     private fun navigateToLogin() {
         startActivity(Intent(this, LoginActivity::class.java))
         finish()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_logout -> {
-                showLogoutDialog()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 
     private fun showLogoutDialog() {

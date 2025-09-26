@@ -1,7 +1,11 @@
 package com.example.traveler
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.traveler.adapter.BookingAdapter
@@ -17,6 +21,7 @@ class BookingListActivity : AppCompatActivity() {
     private lateinit var databaseHelper: DatabaseHelper
     private lateinit var bookingDatabaseHelper: BookingDatabaseHelper
     private lateinit var bookingAdapter: BookingAdapter
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +31,7 @@ class BookingListActivity : AppCompatActivity() {
         sessionManager = SessionManager(this)
         databaseHelper = DatabaseHelper(this)
         bookingDatabaseHelper = BookingDatabaseHelper(this)
+        sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
 
         // Check if user is logged in
         if (!sessionManager.isLoggedIn()) {
@@ -87,5 +93,42 @@ class BookingListActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.booking_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_logout -> {
+                showLogoutDialog()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun showLogoutDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Logout")
+            .setMessage("Are you sure you want to logout?")
+            .setPositiveButton("Yes") { _, _ ->
+                logout()
+            }
+            .setNegativeButton("No", null)
+            .show()
+    }
+
+    private fun logout() {
+        // Clear shared preferences
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply()
+
+        // Navigate to login
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
     }
 }
