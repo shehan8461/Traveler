@@ -61,17 +61,22 @@ class BookingActivity : AppCompatActivity() {
     }
 
     private fun setupDropdowns() {
-        // Accommodation types
+        // Accommodation types - Updated to include historical places and attractions
         val accommodationTypes = arrayOf(
-            "Hotel", "Resort", "Apartment", "Villa", "Hostel", "Guest House", "Bed & Breakfast"
+            "Ancient Temples", "Historical Castles", "Archaeological Sites", "Museums", 
+            "Heritage Hotels", "Colonial Buildings", "Palaces", "Monasteries", 
+            "Ancient Ruins", "Cultural Centers", "Historical Monuments", "Art Galleries",
+            "Traditional Guesthouses", "Heritage Resorts", "Historic Inns"
         )
         val accommodationAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, accommodationTypes)
         binding.etAccommodationType.setAdapter(accommodationAdapter)
 
-        // Room types
+        // Room/Experience types - Updated for historical and cultural experiences
         val roomTypes = arrayOf(
-            "Single Room", "Double Room", "Twin Room", "Triple Room", "Family Room", 
-            "Suite", "Deluxe Room", "Standard Room", "Premium Room"
+            "Guided Tour", "Self-Guided Visit", "Private Tour", "Group Tour", 
+            "Audio Guide Tour", "Heritage Suite", "Historical Room", "Cultural Experience", 
+            "Educational Program", "Workshop Experience", "VIP Access", "Standard Visit",
+            "Premium Experience", "Family Package", "Student Tour"
         )
         val roomAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, roomTypes)
         binding.etRoomType.setAdapter(roomAdapter)
