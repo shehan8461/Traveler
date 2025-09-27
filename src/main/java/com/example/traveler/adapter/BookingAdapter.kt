@@ -3,14 +3,17 @@ package com.example.traveler.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.traveler.R
 import com.example.traveler.model.TravelBooking
 
 class BookingAdapter(
-    private val bookings: List<TravelBooking>,
-    private val onItemClick: (TravelBooking) -> Unit
+    private var bookings: MutableList<TravelBooking>,
+    private val onItemClick: (TravelBooking) -> Unit,
+    private val onEditClick: (TravelBooking) -> Unit,
+    private val onDeleteClick: (TravelBooking) -> Unit
 ) : RecyclerView.Adapter<BookingAdapter.BookingViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookingViewHolder {
@@ -23,9 +26,26 @@ class BookingAdapter(
         val booking = bookings[position]
         holder.bind(booking)
         holder.itemView.setOnClickListener { onItemClick(booking) }
+        holder.btnEdit.setOnClickListener { onEditClick(booking) }
+        holder.btnDelete.setOnClickListener { onDeleteClick(booking) }
     }
 
     override fun getItemCount(): Int = bookings.size
+
+    fun removeItem(position: Int) {
+        bookings.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, bookings.size)
+    }
+
+    fun updateItem(position: Int, updatedBooking: TravelBooking) {
+        bookings[position] = updatedBooking
+        notifyItemChanged(position)
+    }
+
+    fun getItemPosition(booking: TravelBooking): Int {
+        return bookings.indexOf(booking)
+    }
 
     class BookingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvDestination: TextView = itemView.findViewById(R.id.tvDestination)
@@ -34,6 +54,8 @@ class BookingAdapter(
         private val tvAccommodation: TextView = itemView.findViewById(R.id.tvAccommodation)
         private val tvStatus: TextView = itemView.findViewById(R.id.tvStatus)
         private val tvBookingDate: TextView = itemView.findViewById(R.id.tvBookingDate)
+        val btnEdit: ImageButton = itemView.findViewById(R.id.btnEdit)
+        val btnDelete: ImageButton = itemView.findViewById(R.id.btnDelete)
 
         fun bind(booking: TravelBooking) {
             tvDestination.text = "${booking.departureLocation} → ${booking.destination}"

@@ -33,12 +33,13 @@
             android:textSize="14sp"
             android:textColor="@android:color/darker_gray" />
 
-        <!-- Guests and Accommodation Info -->
+        <!-- Guests and Status with Action Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
             <TextView
                 android:id="@+id/tvGuests"
@@ -52,9 +53,32 @@
                 android:id="@+id/tvStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:text="Pending"
                 android:textSize="14sp"
                 android:textStyle="bold" />
+
+            <!-- Action Buttons -->
+            <ImageButton
+                android:id="@+id/btnEdit"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="4dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Edit Booking"
+                android:padding="4dp"
+                android:src="@android:drawable/ic_menu_edit"
+                android:tint="?attr/colorPrimary" />
+
+            <ImageButton
+                android:id="@+id/btnDelete"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Delete Booking"
+                android:padding="4dp"
+                android:src="@android:drawable/ic_menu_delete"
+                android:tint="@android:color/holo_red_dark" />
 
         </LinearLayout>
 

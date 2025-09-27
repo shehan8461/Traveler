@@ -138,7 +138,29 @@ class BookingDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return bookings
     }
 
-    // Get booking by ID
+    // Update a booking
+    fun updateBooking(booking: TravelBooking): Boolean {
+        val db = writableDatabase
+        val values = ContentValues().apply {
+            put(COLUMN_DESTINATION, booking.destination)
+            put(COLUMN_DEPARTURE_LOCATION, booking.departureLocation)
+            put(COLUMN_CHECK_IN_DATE, booking.checkInDate)
+            put(COLUMN_CHECK_OUT_DATE, booking.checkOutDate)
+            put(COLUMN_NUMBER_OF_GUESTS, booking.numberOfGuests)
+            put(COLUMN_ACCOMMODATION_TYPE, booking.accommodationType)
+            put(COLUMN_ROOM_TYPE, booking.roomType)
+            put(COLUMN_SPECIAL_REQUESTS, booking.specialRequests)
+            put(COLUMN_CONTACT_NAME, booking.contactName)
+            put(COLUMN_CONTACT_EMAIL, booking.contactEmail)
+            put(COLUMN_CONTACT_PHONE, booking.contactPhone)
+        }
+        
+        val rowsAffected = db.update(TABLE_BOOKINGS, values, "$COLUMN_ID = ?", arrayOf(booking.id.toString()))
+        db.close()
+        return rowsAffected > 0
+    }
+
+    // Get booking by ID for editing
     fun getBookingById(bookingId: Int): TravelBooking? {
         val db = this.readableDatabase
         val cursor: Cursor = db.query(
@@ -178,6 +200,23 @@ class BookingDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABA
         return booking
     }
 
+    // Delete a booking
+    fun deleteBooking(bookingId: Int): Boolean {
+        val db = this.writableDatabase
+        return try {
+            val rowsDeleted = db.delete(
+                TABLE_BOOKINGS,
+                "$COLUMN_ID = ?",
+                arrayOf(bookingId.toString())
+            )
+            db.close()
+            rowsDeleted > 0
+        } catch (e: Exception) {
+            db.close()
+            false
+        }
+    }
+
     // Update booking status
     fun updateBookingStatus(bookingId: Int, status: String): Boolean {
         val db = this.writableDatabase
@@ -194,23 +233,6 @@ class BookingDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABA
             )
             db.close()
             rowsAffected > 0
-        } catch (e: Exception) {
-            db.close()
-            false
-        }
-    }
-
-    // Delete a booking
-    fun deleteBooking(bookingId: Int): Boolean {
-        val db = this.writableDatabase
-        return try {
-            val rowsDeleted = db.delete(
-                TABLE_BOOKINGS,
-                "$COLUMN_ID = ?",
-                arrayOf(bookingId.toString())
-            )
-            db.close()
-            rowsDeleted > 0
         } catch (e: Exception) {
             db.close()
             false

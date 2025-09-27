@@ -40,6 +40,12 @@
             android:parentActivityName=".MainActivity" />
             
         <activity
+            android:name=".EditBookingActivity"
+            android:exported="false"
+            android:parentActivityName=".BookingListActivity"
+            android:label="Edit Booking" />
+            
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
             
